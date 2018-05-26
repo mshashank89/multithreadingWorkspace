@@ -1,0 +1,26 @@
+package deloitte.countingLeaves;
+
+public class CountDigits {
+
+	public static void main(String[] args) {
+
+		int n = 1000;
+		int m = 1123;
+		int tn = n;
+		while (tn > 0) {
+			int i = tn % 10;
+			int tm = m;
+			while (tm > 0) {
+				int j = tm % 10;
+				
+				if (i == j) {
+					System.out.println(n + " contains " + j + " in " + m);
+					return;
+				}
+				tm = tm/10;
+			}
+			tn = tn/10;
+		}
+	}
+
+}

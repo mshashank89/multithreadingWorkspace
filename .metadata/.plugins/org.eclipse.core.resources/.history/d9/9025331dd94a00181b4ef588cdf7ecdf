@@ -1,0 +1,111 @@
+package deloitte.countingLeaves;
+/* IMPORTANT: Multiple classes and nested static classes are supported */
+
+
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStreamWriter;
+
+//import for Scanner and other utility  classes
+import java.util.*;
+
+
+public class ProblemD {
+	
+	private static Print p = new Print();
+	
+    public static void main(String args[] ) throws Exception {
+       
+        Scanner sc = new Scanner(System.in);
+        int r = sc.nextInt();
+        int c = sc.nextInt();
+        int a[][] = new int[r][c];
+        
+        for (int i = 0; i < r; i++) {
+            for (int j=0;j<c;j++) {
+                a[i][j] = sc.nextInt();
+            }
+        }
+        
+        int rowAdd = sc.nextInt();
+        int rowUpdate = sc.nextInt();
+        int colAdd = sc.nextInt();
+        int colUpdate = sc.nextInt();
+        
+        int max = Integer.MIN_VALUE;
+        int tmp = 0;
+        for (int i=0;i<r;i++) {
+            int sum = 0;
+            int sum1 = 0;
+            for (int j=0;j<c;j++) {
+                if (a[i][j] < 0) sum += (-a[i][j]);
+                else sum += a[i][j];
+                if (a[i][j] + rowAdd < 0) sum1 += -1 * (a[i][j] + rowAdd);
+                else sum1 += a[i][j] + rowAdd;
+            }
+            tmp += max(sum, max(sum1, rowUpdate*c));
+        }
+        
+        max = max(tmp, max);
+        tmp = 0;
+        
+        for (int i=0;i<c;i++) {
+            int sum = 0;
+            int sum1 = 0;
+            for (int j=0;j<r;j++) {
+                if (a[j][i] < 0) sum += (-a[j][i]);
+                else sum += a[j][i];
+                if (a[j][i] + colAdd < 0) sum1 += -1*(a[j][i] + colAdd);
+                else sum1 += a[j][i] + colAdd;
+            }
+            tmp += max(sum, max(sum1, colUpdate*r));
+        }
+        
+        p.println(max(max, tmp));
+        
+        
+        p.close();
+    }
+    
+    static int max(int a, int b) {
+        if (a > b) return a;
+        
+        return b;
+    }
+    
+    
+    static class Print {
+ 
+        private final BufferedWriter bw;
+ 
+        public Print() {
+            bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        }
+ 
+        public void print(String str) throws IOException {
+            bw.append(str);
+        }
+        
+        public void print(int val) throws IOException {
+            bw.append(String.valueOf(val));
+        }
+        
+        public void println(int val) throws IOException {
+            print(val);
+            bw.append("\n");
+        }
+        public void println(String str) throws IOException {
+            print(str);
+            bw.append("\n");
+        }
+        
+        public void println() throws IOException {
+            bw.append("\n");
+        }
+ 
+        public void close() throws IOException {
+            bw.close();
+        }
+    }
+}

@@ -1,0 +1,43 @@
+package deloitte.countingLeaves;
+
+import java.util.Scanner;
+
+class Node {
+	int data;
+	Node left;
+	Node right;
+	
+	public Node(int n) {
+		data = n;
+	}
+}
+
+class Tree {
+	private Node root;
+	private int nodeVal;
+	
+	Tree() {
+		nodeVal = -1;
+	}
+	
+	public void addChild(int parent) {
+		if (parent == -1) {
+			nodeVal = 0;
+			Node node = new Node(nodeVal);
+		}
+	}
+}
+public class CountingLeaves {
+
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		
+		int n = sc.nextInt();
+		int a[] = new int[n];
+		
+		for (int i=0;i<n;i++) {
+			a[i] = sc.nextInt();
+			
+		}
+	}
+}

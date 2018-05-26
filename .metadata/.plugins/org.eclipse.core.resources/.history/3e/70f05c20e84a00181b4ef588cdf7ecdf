@@ -1,0 +1,133 @@
+package deloitte.countingLeaves;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class CountDigits {
+	
+	public static void main(String[] args) {
+
+		int arr[] = {1, 2, 3,};
+//		int r=3;
+		int n = arr.length;
+		int[][] cargoList = new int[3][3];
+		int maxWeight = 300;
+		List<Integer> outputList= new ArrayList<Integer>();
+		
+		int maxProfit = 0;
+		
+		for (int r=1;r<=n;r++) {
+			int p = getProfit(arr, n, r, maxWeight, cargoList, outputList);
+			
+			if (p > maxProfit) maxProfit = p;
+		}
+		
+		System.out.println(maxProfit);
+		
+		
+	}
+	
+	public static int getProfit(int[] arr, int n, int r, int maxWeight, int[][] cargoList, List<Integer> outputList) {
+		
+		int data[] = new int[r];
+		
+		combinationUtil(arr, data, 0, n, 0, r);
+		
+		
+		int profit = findProfit(data, cargoList, maxWeight, outputList);
+		return profit;
+	}
+	
+	private static int findProfit(int[] data, int[][] cargoList, int maxWeight, List<Integer> outputList) {
+		
+		int totalWeight = 0;
+		int totalProfit = 0;
+		for (int j=0;j<data.length;j++) {
+			int id = cargoList[j][0];
+			if (maxWeight >= totalWeight + cargoList[j][1]) {
+				outputList.add(id);
+				totalWeight += cargoList[j][1];
+				totalProfit += cargoList[j][2];
+				
+			}
+			
+		}
+		outputList.add(totalProfit);
+		return totalProfit;
+	}
+
+	public static void combinationUtil(int arr[], int data[], int start, int end, int index, int r) {
+		for (int i=start;i<end && end-i+1 >= r-index;i++) {
+			data[index] = arr[i];
+			combinationUtil(arr, data, i+1,end, index+1,r);
+		}
+	}
+	
+	public static int comb(int n, int r) { 
+		
+		return (fact(n)/fact(n-r))/fact(r);
+	}
+	
+	static int fact(int n) {
+		
+		if (n < 0) {
+			n = -1 * n;
+		}
+		
+		int f = 1;
+		while (n > 0) {
+			f = f * n;
+			n--;
+		}
+		
+		return f;
+	}
+	
+	public static void main1(String[] args) {
+
+		int n = 10;
+		int m = 0;
+		int tn = n;
+		
+		boolean flag = false;
+		
+		int temp = 0;
+		if (n == 0) {
+			temp = m;
+			flag = true;
+		}
+		else if (m == 0) {
+			temp = n;
+			flag = true;
+		}
+		
+		if (flag) {
+			int tm = temp;
+			while (tm > 0) {
+				int j = tm % 10;
+				
+				if (0 == j) {
+					System.out.println(n + " contains " + j + " in " + m);
+					return;
+				}
+				tm = tm/10;
+			}
+		}
+		
+		while (tn > 0) {
+			int i = tn % 10;
+			int tm = m;
+			while (tm > 0) {
+				int j = tm % 10;
+				
+				if (i == j) {
+					System.out.println(n + " contains " + j + " in " + m);
+					return;
+				}
+				tm = tm/10;
+			}
+			tn = tn/10;
+		}
+	}
+
+}

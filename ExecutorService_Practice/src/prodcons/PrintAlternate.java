@@ -1,0 +1,95 @@
+package prodcons;
+
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
+public class PrintAlternate {
+	
+	private static final int MAX = 10;
+	private static Object _lock = new Object();
+	private static Lock lock = new ReentrantLock();
+	private static Condition c = lock.newCondition();
+
+	public static void main(String[] args) throws InterruptedException {
+
+		Thread even = new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				try {
+					printEven();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			
+		});
+		
+		Thread odd = new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+
+				try {
+					printOdd();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			
+		});
+		
+		even.start();
+		odd.start();
+		
+		even.join();
+		odd.join();
+		
+		System.out.println("End");
+	}
+
+	private static void printEven() throws InterruptedException {
+		
+		for (int i=0;i<MAX;i+=2) {
+			
+			try {
+				lock.lock();
+				
+				System.out.print(i + "  ");
+				
+				Thread.sleep(100);
+				
+				c.signal();
+				c.await();
+			}
+			finally {
+				c.signal();
+				lock.unlock();
+			}
+			
+		}
+	}
+	
+	private static void printOdd() throws InterruptedException {
+//		Thread.sleep(100);
+		
+		for (int i=1;i<MAX;i+=2) {
+			try {
+				lock.lock();
+				System.out.print(i + "  ");
+				
+				Thread.sleep(100);
+				
+				c.signal();
+				c.await();
+			}
+			finally {
+				c.signal();
+				lock.unlock();
+			}
+		}
+	}
+}

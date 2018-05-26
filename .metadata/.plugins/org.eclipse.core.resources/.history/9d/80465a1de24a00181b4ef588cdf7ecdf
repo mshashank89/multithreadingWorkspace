@@ -1,0 +1,86 @@
+package deloitte.countingLeaves;
+
+public class CountDigits {
+	
+	public static void main(String[] args) {
+		int a[] = {1,2,3};
+		
+		int n = a.length;
+		int totalComb = 0;
+		
+		for (int i=1;i<=a.length;i++) {
+			int c = i * comb(n, i);
+			totalComb +=c;
+		}
+		
+		System.out.println(totalComb);
+	}
+	
+	public static int comb(int n, int r) { 
+		
+		return (fact(n)/fact(n-r))/fact(r);
+	}
+	
+	static int fact(int n) {
+		
+		if (n < 0) {
+			n = -1 * n;
+		}
+		
+		int f = 1;
+		while (n > 0) {
+			f = f * n;
+			n--;
+		}
+		
+		return f;
+	}
+	
+	public static void main1(String[] args) {
+
+		int n = 10;
+		int m = 0;
+		int tn = n;
+		
+		boolean flag = false;
+		
+		int temp = 0;
+		if (n == 0) {
+			temp = m;
+			flag = true;
+		}
+		else if (m == 0) {
+			temp = n;
+			flag = true;
+		}
+		
+		if (flag) {
+			int tm = temp;
+			while (tm > 0) {
+				int j = tm % 10;
+				
+				if (0 == j) {
+					System.out.println(n + " contains " + j + " in " + m);
+					return;
+				}
+				tm = tm/10;
+			}
+		}
+		
+		while (tn > 0) {
+			int i = tn % 10;
+			int tm = m;
+			while (tm > 0) {
+				int j = tm % 10;
+				
+				if (i == j) {
+					System.out.println(n + " contains " + j + " in " + m);
+					return;
+				}
+				tm = tm/10;
+			}
+			tn = tn/10;
+		}
+	}
+
+}
